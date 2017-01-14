@@ -33,9 +33,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.PowerManager;
+import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,6 +134,7 @@ public class SmartBarView extends BaseNavigationBar {
     private float mCustomAlpha;
 
     private SlideTouchEvent mSlideTouchEvent;
+    private GestureDetector mNavDoubleTapToSleep;
 
     public SmartBarView(Context context, boolean asDefault) {
         super(context);
@@ -142,6 +146,27 @@ public class SmartBarView extends BaseNavigationBar {
             mSmartObserver.addListener(mObservable);
         }
         createBaseViews();
+
+        mNavDoubleTapToSleep = new GestureDetector(context,
+                new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                if (pm != null) {
+                    pm.goToSleep(SystemClock.uptimeMillis());
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.SMARTBAR_DOUBLETAP_SLEEP, 0, UserHandle.USER_CURRENT) == 1) {
+            mNavDoubleTapToSleep.onTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
     }
 
     @Override
