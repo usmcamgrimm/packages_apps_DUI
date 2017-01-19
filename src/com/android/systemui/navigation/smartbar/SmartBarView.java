@@ -168,14 +168,6 @@ public class SmartBarView extends BaseNavigationBar {
         return super.onTouchEvent(event);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (isOneHandedModeEnabled) {
-            mSlideTouchEvent.handleTouchEvent(event);
-        }
-        return super.onTouchEvent(event);
-    }
-
     ArrayList<String> getCurrentSequence() {
         return mCurrentSequence;
     }
