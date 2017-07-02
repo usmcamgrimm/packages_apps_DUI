@@ -865,7 +865,7 @@ public class SmartBarView extends BaseNavigationBar {
                 SmartButtonView.setButtonLongpressDelay(systemLpDelay);
                 break;
             case 2:
-                SmartButtonView.setButtonLongpressDelay(systemLpDelay + 100);
+                SmartButtonView.setButtonLongpressDelay(systemLpDelay + 200);
                 break;
         }
     }
