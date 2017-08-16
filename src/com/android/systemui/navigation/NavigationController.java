@@ -154,6 +154,24 @@ public class NavigationController implements PackageChangedListener {
         return handled;
     }
 
+    public void toggleNavigationEditor() {
+        if (mNavigationBarView != null) {
+            Editor editor = mNavigationBarView.getEditor();
+            if (editor != null) {
+                editor.toggleNavigationEditor();
+            }
+        }
+    }
+
+    public void dispatchNavigationEditorResults(Intent intent) {
+        if (mNavigationBarView != null) {
+            Editor editor = mNavigationBarView.getEditor();
+            if (editor != null) {
+                editor.dispatchNavigationEditorResults(intent);
+            }
+        }
+    }
+
     public void recreateNavigationBar(Context context) {
         int navMode = Settings.Secure.getIntForUser(context.getContentResolver(),
                 Settings.Secure.NAVIGATION_BAR_MODE, NAVIGATION_MODE_SMARTBAR,
